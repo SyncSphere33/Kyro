@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Tools | Smart Study Buddy Pro</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .file-upload:hover {
+            border-color: #3b82f6;
+        }
+        .file-upload.dragging {
+            border-color: #3b82f6;
+            background-color: #f0f7ff;
+        }
+        #vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .result-card {
+            transition: all 0.3s ease;
+        }
+        .result-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+    <div id="vanta-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i data-feather="book" class="text-indigo-600 w-6 h-6"></i>
+                        <span class="ml-2 text-xl font-bold gradient-text">KYRO</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="index.html" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Home</a>
+                    <a href="tools.html" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Tools</a>
+                    <a href="#" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">AI Study</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Features</a>
+                    <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">Dashboard</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <span class="gradient-text">AI-Powered</span> Study Tools
+            </h1>
+            <p class="mt-3 max-w-2xl mx-auto text-gray-500">
+                Let artificial intelligence help you learn faster and more effectively
+            </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button class="tab-button active py-4 px-1 text-sm font-medium" data-tab="summarizer">
+                    <i data-feather="align-left" class="inline-block w-4 h-4 mr-2"></i>
+                    Notes Summarizer
+                </button>
+                <button class="tab-button py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="qna">
+                    <i data-feather="help-circle" class="inline-block w-4 h-4 mr-2"></i>
+                    Q&A Generator
+                </button>
+                <button class="tab-button py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="flashcards">
+                    <i data-feather="layers" class="inline-block w-4 h-4 mr-2"></i>
+                    Flashcard Creator
+                </button>
+            </nav>
+        </div>
+
+<!-- Notes Summarizer -->
+<div id="summarizer" class="tab-content pt-8 active">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                    <i data-feather="align-left"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-medium text-gray-900">Notes Summarizer</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Upload your lecture notes or documents and get a concise summary.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <!-- File Upload + Options -->
+                <div>
+                    <div id="summarizer-upload" class="file-upload rounded-lg p-4 text-center cursor-pointer h-64 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-500 transition">
+                        <i data-feather="upload" class="w-12 h-12 text-gray-400"></i>
+                        <p class="mt-4 text-sm text-gray-600">Drag & drop your document here</p>
+                        <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+                        <p class="text-xs text-gray-500 mt-2">Supports: PDF, DOCX, TXT</p>
+                        <input id="summarizer-file" type="file" class="hidden" accept=".pdf,.docx,.txt">
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="summarizer-length" class="block text-sm font-medium text-gray-700">Summary Length</label>
+                        <select id="summarizer-length" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Very Short (Key Points)</option>
+                            <option selected>Short (1 Paragraph)</option>
+                            <option>Medium (2-3 Paragraphs)</option>
+                            <option>Detailed (Preserves Structure)</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                        <button id="summarizer-generate" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition flex items-center">
+                            <i data-feather="zap" class="w-4 h-4 mr-2"></i>
+                            Generate Summary
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Result -->
+                <div>
+                    <div class="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Summary Result</h4>
+                        <div id="summarizer-result" class="text-sm text-gray-600">
+                            <p>Upload a document to see the AI-generated summary appear here.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex justify-between">
+                        <button id="summarizer-copy" class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="copy" class="w-4 h-4 mr-1"></i>
+                            Copy
+                        </button>
+                        <button id="summarizer-download" class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="download" class="w-4 h-4 mr-1"></i>
+                            Download
+                        </button>
+                        <button id="summarizer-share" class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="share-2" class="w-4 h-4 mr-1"></i>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+feather.replace(); // Render Feather icons
+
+const fileInput = document.getElementById("summarizer-file");
+const uploadDiv = document.getElementById("summarizer-upload");
+const generateBtn = document.getElementById("summarizer-generate");
+const resultDiv = document.getElementById("summarizer-result");
+const copyBtn = document.getElementById("summarizer-copy");
+const downloadBtn = document.getElementById("summarizer-download");
+let uploadedFile = null;
+
+// Click to open file dialog
+uploadDiv.addEventListener("click", () => fileInput.click());
+
+// File selected via file dialog
+fileInput.addEventListener("change", (e) => {
+    if (e.target.files.length > 0) {
+        uploadedFile = e.target.files[0];
+        uploadDiv.querySelector("p.text-sm").textContent = uploadedFile.name;
+    }
+});
+
+// Drag & drop
+uploadDiv.addEventListener("dragover", (e) => e.preventDefault());
+uploadDiv.addEventListener("drop", (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+        uploadedFile = e.dataTransfer.files[0];
+        fileInput.files = e.dataTransfer.files;
+        uploadDiv.querySelector("p.text-sm").textContent = uploadedFile.name;
+    }
+});
+
+// Generate summary
+generateBtn.addEventListener("click", async () => {
+    if (!uploadedFile) { alert("Please select a file first!"); return; }
+
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+    formData.append("length", document.getElementById("summarizer-length").value);
+
+    resultDiv.innerHTML = "<p class='text-gray-500'>Generating summary...</p>";
+
+    try {
+        const response = await fetch("/api/study/summarize", { method: "POST", body: formData });
+        if (!response.ok) throw new Error("Failed to generate summary");
+
+        const summaryText = await response.text();
+        resultDiv.innerHTML = `<div class="p-2 bg-white rounded border border-gray-200 text-gray-700 overflow-y-auto" style="max-height: 100%;">${summaryText.replace(/\n/g, "<br>")}</div>`;
+
+        // Download button
+        downloadBtn.onclick = () => {
+            const blob = new Blob([summaryText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `summary_${uploadedFile.name}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Copy button
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(summaryText);
+            alert("Summary copied to clipboard!");
+        };
+
+        // Share button placeholder
+        document.getElementById("summarizer-share").onclick = () => alert("Share functionality can be implemented as needed.");
+    } catch (err) {
+        resultDiv.innerHTML = `<p class='text-red-500'>Error: ${err.message}</p>`;
+    }
+});
+</script>
+
+        <!-- Q&A Generator -->
+  <!-- Q&A Generator -->
+<div id="qna" class="tab-content pt-8 hidden">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+                    <i data-feather="help-circle"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-medium text-gray-900">Q&A Generator</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Generate practice questions and answers from your study materials.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Main content grid -->
+            <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+                <!-- Left panel: Upload + Settings -->
+                <div>
+                    <div class="ssb-qna-drop-area file-upload rounded-lg p-4 text-center cursor-pointer h-64 flex flex-col items-center justify-center">
+                        <i data-feather="upload" class="w-12 h-12 text-gray-400"></i>
+                        <p class="mt-4 text-sm text-gray-600">Drag & drop your document here</p>
+                        <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+                        <p class="text-xs text-gray-500 mt-2">Supports: PDF, DOCX, TXT</p>
+                        <input type="file" class="hidden ssb-qna-file-input" accept=".pdf,.docx,.txt">
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="ssb-qna-difficulty" class="block text-sm font-medium text-gray-700">Question Difficulty</label>
+                        <select id="ssb-qna-difficulty" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Basic (Recall)</option>
+                            <option selected>Intermediate (Understanding)</option>
+                            <option>Advanced (Application)</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="ssb-qna-count" class="block text-sm font-medium text-gray-700">Number of Questions</label>
+                        <select id="ssb-qna-count" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>5 Questions</option>
+                            <option selected>10 Questions</option>
+                            <option>15 Questions</option>
+                            <option>20 Questions</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                        <button class="ssb-qna-generate-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition flex items-center">
+                            <i data-feather="zap" class="w-4 h-4 mr-2"></i>
+                            Generate Questions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right panel: Generated Q&A -->
+                <div>
+                    <div class="ssb-qna-result-container bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Generated Questions</h4>
+                        <div class="text-sm text-gray-600">
+                            <p>Upload a document to see AI-generated questions appear here. These questions will help you test your understanding of the material.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="mt-4 flex justify-between">
+                        <button class="ssb-qna-copy-btn text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="copy" class="w-4 h-4 mr-1"></i>
+                            Copy
+                        </button>
+                        <button class="ssb-qna-download-btn text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="download" class="w-4 h-4 mr-1"></i>
+                            Download
+                        </button>
+                        <button class="ssb-qna-share-btn text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                            <i data-feather="share-2" class="w-4 h-4 mr-1"></i>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS for Q&A Generator -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const qnaFileInput = document.querySelector("#qna .ssb-qna-file-input");
+    const qnaDropArea = document.querySelector("#qna .ssb-qna-drop-area");
+    const qnaDifficulty = document.querySelector("#qna #ssb-qna-difficulty");
+    const qnaCount = document.querySelector("#qna #ssb-qna-count");
+    const qnaGenerateBtn = document.querySelector("#qna .ssb-qna-generate-btn");
+    const qnaResultContainer = document.querySelector("#qna .ssb-qna-result-container");
+
+    qnaDropArea.addEventListener("click", () => qnaFileInput.click());
+
+    qnaDropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        qnaDropArea.classList.add("ssb-dragover");
+    });
+    qnaDropArea.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        qnaDropArea.classList.remove("ssb-dragover");
+    });
+    qnaDropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        qnaDropArea.classList.remove("ssb-dragover");
+        if (e.dataTransfer.files.length) {
+            qnaFileInput.files = e.dataTransfer.files;
+        }
+    });
+
+    qnaGenerateBtn.addEventListener("click", async () => {
+        const file = qnaFileInput.files[0];
+        if (!file) { alert("Please upload a file first!"); return; }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("difficulty", qnaDifficulty.value);
+        formData.append("count", qnaCount.value.split(" ")[0]);
+
+        try {
+            qnaGenerateBtn.disabled = true;
+            qnaGenerateBtn.innerText = "Generating...";
+
+            const res = await fetch("/api/study/qna", { method: "POST", body: formData });
+            const data = await res.json();
+            if (res.ok) renderQnA(data.qna);
+            else alert(data.error || "Failed to generate Q&A");
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong. Check console.");
+        } finally {
+            qnaGenerateBtn.disabled = false;
+            qnaGenerateBtn.innerHTML = '<i data-feather="zap" class="w-4 h-4 mr-2"></i> Generate Questions';
+            if (window.feather) feather.replace();
+        }
+    });
+
+    function renderQnA(qnaList) {
+        if (!qnaList || !qnaList.length) {
+            qnaResultContainer.innerHTML = `<p class="text-sm text-gray-600">No questions generated.</p>`;
+            return;
+        }
+        const html = qnaList.map(item => `
+            <div class="ssb-qna-card bg-white p-3 rounded border border-gray-200 mb-2">
+                <p class="text-sm font-medium text-purple-600">${item.question}</p>
+                <p class="text-xs mt-1 text-gray-600">${item.answer}</p>
+            </div>
+        `).join("");
+        qnaResultContainer.innerHTML = html;
+    }
+
+    document.querySelector("#qna .ssb-qna-copy-btn").addEventListener("click", () => {
+        const text = Array.from(qnaResultContainer.querySelectorAll(".ssb-qna-card")).map(c => c.innerText).join("\n\n");
+        navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard!"));
+    });
+
+    document.querySelector("#qna .ssb-qna-download-btn").addEventListener("click", () => {
+        const text = Array.from(qnaResultContainer.querySelectorAll(".ssb-qna-card")).map(c => c.innerText).join("\n\n");
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "qna.txt";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    document.querySelector("#qna .ssb-qna-share-btn").addEventListener("click", () => {
+        alert("Share functionality can be implemented as needed.");
+    });
+});
+</script>
+
+
+        <!-- Flashcard Creator -->
+        <div id="flashcards" class="tab-content pt-8 hidden">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                            <i data-feather="layers"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900">Flashcard Creator</h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                                Transform your notes into digital flashcards for active recall.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        <div>
+                            <div class="file-upload rounded-lg p-4 text-center cursor-pointer h-64 flex flex-col items-center justify-center">
+                                <i data-feather="upload" class="w-12 h-12 text-gray-400"></i>
+                                <p class="mt-4 text-sm text-gray-600">Drag & drop your document here</p>
+                                <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+                                <p class="text-xs text-gray-500 mt-2">Supports: PDF, DOCX, TXT</p>
+                                <input type="file" class="hidden" accept=".pdf,.docx,.txt">
+                            </div>
+                            <div class="mt-4">
+                                <label for="flashcard-style" class="block text-sm font-medium text-gray-700">Flashcard Style</label>
+                                <select id="flashcard-style" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option>Basic (Term/Definition)</option>
+                                    <option selected>Detailed (Concept/Explanation)</option>
+                                    <option>Question/Answer</option>
+                                </select>
+                            </div>
+                            <div class="mt-4 flex justify-end">
+                                <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition flex items-center">
+                                    <i data-feather="zap" class="w-4 h-4 mr-2"></i>
+                                    Create Flashcards
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Generated Flashcards</h4>
+                                <div class="text-sm text-gray-600">
+                                    <p>Upload a document to see AI-generated flashcards appear here. Use them for active recall practice.</p>
+                                    <div class="mt-4 space-y-3">
+                                        <div class="bg-white rounded-lg shadow-sm overflow-hidden result-card">
+                                            <div class="p-4 border-b border-gray-200 bg-blue-50">
+                                                <p class="text-sm font-medium text-blue-600">Supervised Learning</p>
+                                            </div>
+                                            <div class="p-4">
+                                                <p class="text-xs text-gray-600">Machine learning approach where the model is trained on labeled data (input-output pairs) to learn the mapping function from inputs to outputs.</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white rounded-lg shadow-sm overflow-hidden result-card">
+                                            <div class="p-4 border-b border-gray-200 bg-blue-50">
+                                                <p class="text-sm font-medium text-blue-600">Neural Network</p>
+                                            </div>
+                                            <div class="p-4">
+                                                <p class="text-xs text-gray-600">Computing system inspired by biological neural networks, consisting of interconnected nodes (neurons) that process information using a connectionist approach.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-between">
+                                <button class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                                    <i data-feather="copy" class="w-4 h-4 mr-1"></i>
+                                    Copy
+                                </button>
+                                <button class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                                    <i data-feather="download" class="w-4 h-4 mr-1"></i>
+                                    Download
+                                </button>
+                                <button class="text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition flex items-center">
+                                    <i data-feather="share-2" class="w-4 h-4 mr-1"></i>
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">About</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Contact</a>
+                </div>
+            </nav>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2025 KYRO Pro. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3b82f6,
+            backgroundColor: 0xf8fafc,
+            points: 12.00,
+            maxDistance: 22.00,
+            spacing: 18.00
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active', 'text-indigo-600'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+                
+                // Add active class to clicked button
+                button.classList.add('active', 'text-indigo-600');
+                
+                // Show corresponding content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // File upload drag and drop
+        document.querySelectorAll('.file-upload').forEach(upload => {
+            const input = upload.querySelector('input[type="file"]');
+            
+            upload.addEventListener('click', () => input.click());
+            
+            upload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                upload.classList.add('dragging');
+            });
+            
+            upload.addEventListener('dragleave', () => {
+                upload.classList.remove('dragging');
+            });
+            
+            upload.addEventListener('drop', (e) => {
+                e.preventDefault();
+                upload.classList.remove('dragging');
+                input.files = e.dataTransfer.files;
+                
+                // Show file name
+                const fileName = e.dataTransfer.files[0].name;
+                const uploadIcon = upload.querySelector('[data-feather="upload"]');
+                uploadIcon.classList.add('hidden');
+                upload.querySelector('p').textContent = fileName;
+            });
+            
+            input.addEventListener('change', () => {
+                if (input.files.length > 0) {
+                    const fileName = input.files[0].name;
+                    const uploadIcon = upload.querySelector('[data-feather="upload"]');
+                    uploadIcon.classList.add('hidden');
+                    upload.querySelector('p').textContent = fileName;
+                }
+            });
+        });
+
+        feather.replace();
+    </script>
+</body>
+</html>

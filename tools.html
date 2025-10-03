@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Tools | Smart Study Buddy Pro</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ssb-gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .ssb-tab-button.ssb-tab-active {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+        .ssb-tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .ssb-file-upload {
+            border: 2px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+
+        .ssb-file-upload:hover {
+            border-color: #3b82f6;
+        }
+
+        .ssb-file-upload.ssb-file-dragging {
+            border-color: #3b82f6;
+            background-color: #f0f7ff;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i data-feather="book" class="text-indigo-600 w-6 h-6"></i>
+                        <span class="ml-2 text-xl font-bold ssb-gradient-text">KYRO</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="index.html"
+                        class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Home</a>
+                    <a href="#"
+                        class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Tools</a>
+                    <a href="study.html"
+                        class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">AI
+                        Study</a>
+                    <a href="#"
+                        class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-600 transition">Features</a>
+                    <a href="#"
+                        class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">Dashboard</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button type="button"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <span class="ssb-gradient-text">Productivity</span> Tools
+            </h1>
+            <p class="mt-3 max-w-2xl mx-auto text-gray-500">
+                Powerful tools to enhance your documents, images and videos for better studying
+            </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button class="ssb-tab-button ssb-tab-active py-4 px-1 text-sm font-medium"
+                    data-tab="image-tools">
+                    <i data-feather="image" class="inline-block w-4 h-4 mr-2"></i>
+                    Image Tools
+                </button>
+                <button class="ssb-tab-button py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    data-tab="document-tools">
+                    <i data-feather="file-text" class="inline-block w-4 h-4 mr-2"></i>
+                    Document Tools
+                </button>
+                <button class="ssb-tab-button py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    data-tab="video-tools">
+                    <i data-feather="video" class="inline-block w-4 h-4 mr-2"></i>
+                    Video Tools
+                </button>
+            </nav>
+        </div>
+
+        <!-- Image Tools -->
+        <div id="image-tools" class="ssb-tab-content pt-8 active">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                
+                 <!-- Images to PDF Converter -->
+                <div class="ssb-tool-card" id="images-to-pdf-card">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="file-text"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Images to PDF</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Convert multiple images into a single PDF.
+        </p>
+
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             id="images-to-pdf-upload" data-api="/api/image/to_pdf" data-download="output.pdf">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your images here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" id="images-to-pdf-input" multiple accept="image/*" class="hidden">
+        </div>
+        <div class="mt-4 flex justify-end">
+            <button id="images-to-pdf-btn"
+                    class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Convert to PDF
+            </button>
+        </div>
+    </div>
+                </div>
+
+
+                <!--Image Enhancer -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+                    <div class="p-6">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <i data-feather="image"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">Image Enhancer</h3>
+                        <p class="mt-2 text-base text-gray-500">
+                            Enhance image resolution automatically with AI.
+                        </p>
+
+                        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+                            data-api="/api/image/enhance" data-download="enhanced_image.png">
+                            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+                            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+                            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+                            <input type="file" class="hidden" accept="image/*">
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button
+                                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                                Enhance Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                 
+                <!-- Image Background Remover -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
+            <i data-feather="scissors"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Remove Background</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Automatically remove the background from your images.
+        </p>
+
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/image/remove-bg"
+             data-download="bg_removed_image.png">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="image/*">
+        </div>
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 transition">
+                Remove Background
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Background Extender -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-yellow-500 text-white">
+            <i data-feather="expand"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Background Extender</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Add padding around the image background seamlessly.
+        </p>
+
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/image/extend-bg"
+             data-download="extended_image.png">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="image/*">
+        </div>
+
+        <div class="mt-4 flex justify-between items-center">
+            <input type="number" min="0" value="50" class="ssb-padding-input border rounded px-2 py-1 w-20 text-sm"
+                   placeholder="Padding px">
+            <button class="ssb-tool-btn bg-yellow-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-600 transition">
+                Extend Background
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Image Compressor -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-yellow-500 text-white">
+            <i data-feather="zap"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Image Compressor</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Compress images to reduce file size without losing much quality.
+        </p>
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer" 
+             data-api="/api/image/compress" 
+             data-download="compressed_image.png">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="image/*" name="file">
+        </div>
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Compress Image
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Image Format Converter -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+            <i data-feather="repeat"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Image Format Converter</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Convert images to different formats like PNG, JPEG, or WebP.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer" 
+             data-api="/api/image/convert" 
+             data-download="converted_image.png">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="image/*" name="file">
+        </div>
+
+        <!-- Format Selector -->
+   
+<div class="mt-4">
+    <label for="image-format" class="block text-sm font-medium text-gray-700">Target Format</label>
+    <select name="format" id="image-format" 
+            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 
+                   focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        <option value="png">PNG</option>
+        <option value="jpeg">JPEG</option>
+        <option value="webp">WEBP</option>
+    </select>
+</div>
+
+
+        <!-- Convert Button -->
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Convert Image
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Watermark Tool -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-gray-700 text-white">
+            <i data-feather="tag"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Add Watermark</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Add a custom watermark text to your image.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer" 
+             data-api="/api/image/watermark" data-download="watermarked_image.png">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="image/*">
+        </div>
+
+        <!-- Watermark Input -->
+        <div class="mt-4">
+            <label for="watermark-text" class="block text-sm font-medium text-gray-700">Watermark Text</label>
+            <input type="text" id="watermark-text" name="watermark"
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm
+                          focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                   placeholder="Enter watermark text">
+        </div>
+
+        <!-- Process Button -->
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Add Watermark
+            </button>
+        </div>
+    </div>
+                </div>
+
+                
+                <!-- Add more image tools here using same structure -->
+            </div>
+        </div>
+
+        <!-- Document Tools -->
+        <div id="document-tools" class="ssb-tab-content pt-8 hidden">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- DOCX Merge Tool -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+            <i data-feather="layers"></i>
+        </div>
+        
+        <!-- Title & Description -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Merge DOCX Files</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Merge multiple DOCX files into one single document.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/docx/merge" data-download="merged_doc.docx">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop DOCX files here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse (multiple allowed)</p>
+            <input type="file" class="hidden" accept=".docx" multiple>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Merge DOCX
+            </button>
+        </div>
+    </div>
+                </div>
+
+                    <!-- PDF to Images Tool -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+            <i data-feather="file-text"></i>
+        </div>
+        
+        <!-- Title & Description -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">PDF to Images</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Convert PDF files into images and save each PDF in a separate folder.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/pdf/to_images" data-download="images_folder.zip">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop PDF files here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse (multiple allowed)</p>
+            <input type="file" class="hidden" accept=".pdf" multiple>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Convert PDF
+            </button>
+        </div>
+    </div>
+                </div>
+
+
+                   <!-- DOCX Split Tool -->
+                    <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+                                             <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
+            <i data-feather="divide-circle"></i>
+        </div>
+        
+        <!-- Title & Description -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Split DOCX</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Split a DOCX file into multiple documents, each containing one paragraph.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/docx/split">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your DOCX file here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept=".docx">
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Split DOCX
+            </button>
+        </div>
+    </div>
+                    </div>
+                  
+                <!-- DOCX Editor Tool -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+            <i data-feather="edit"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">DOCX Editor</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Upload a DOCX file, edit it on the go, and download the updated file.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/docx/open">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your DOCX here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept=".docx">
+        </div>
+
+        <!-- Textarea for editing -->
+        <div class="mt-4">
+            <label for="docx-text" class="block text-sm font-medium text-gray-700">Document Text</label>
+            <textarea id="docx-text" name="text" rows="10"
+                      class="mt-1 block w-full p-2 border-gray-300 rounded-md"></textarea>
+        </div>
+
+        <!-- Save Button -->
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Save DOCX
+            </button>
+        </div>
+    </div>
+                </div>
+
+
+
+                <!-- Add more document tools here using same structure -->
+            </div>
+        </div>
+
+        <!-- Video Tools -->
+        <div id="video-tools" class="ssb-tab-content pt-8 hidden">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+               
+                <!-- Trim Video Tool Card -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="scissors"></i>
+        </div>
+
+        <!-- Title & Description -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Trim Video</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Trim your video by specifying start and end times (in seconds).
+        </p>
+
+        <!-- Drag & Drop Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/video/trim" data-download="trimmed_video.mp4">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your video here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="video/*">
+        </div>
+
+        <!-- Start & End Time Inputs -->
+        <div class="mt-4 grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Start Time (s)</label>
+                <input type="number" name="start" min="0" step="0.1"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">End Time (s)</label>
+                <input type="number" name="end" min="0" step="0.1"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Trim Video
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Video Converter Tool Card -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="repeat"></i>
+        </div>
+
+        <!-- Title & Description -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Video Converter</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Convert videos to different formats like MP4, AVI, GIF, etc.
+        </p>
+
+        <!-- Drag & Drop Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/video/convert" data-download="converted_video.mp4">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your video here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="video/*">
+        </div>
+
+        <!-- Format Selector -->
+        <div class="mt-4">
+            <label for="video-format" class="block text-sm font-medium text-gray-700">Target Format</label>
+            <select id="video-format" name="format" class="...">
+    <option value="mp4">MP4</option>
+    <option value="avi">AVI</option>
+    <option value="mkv">MKV</option>
+    <option value="mov">MOV</option>
+    <option value="webm">WEBM</option>
+    <option value="gif">GIF</option>
+    <option value="mp3">MP3 (Audio Only)</option>
+    <option value="wav">WAV (Audio Only)</option>
+            </select>
+
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Convert Video
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Video Speed Adjuster Tool Card -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="zap"></i>
+        </div>
+
+        <!-- Title -->
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Adjust Video Speed</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Make your video faster or slower. You can also choose output format.
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/video/adjust-speed" data-download="speed_adjusted_video.mp4">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your video here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="video/*">
+        </div>
+
+        <!-- Speed & Format Inputs -->
+        <div class="mt-4 flex flex-col gap-2">
+            <!-- Speed Factor -->
+            <label for="speed-factor" class="text-sm font-medium text-gray-700">Speed Factor</label>
+            <input type="number" step="0.1" min="0.1" max="5" value="1"
+                   class="speed-factor-input border border-gray-300 rounded-md px-2 py-1"
+                   placeholder="e.g., 2 for double speed">
+
+            <!-- Output Format -->
+            <label for="speed-format" class="text-sm font-medium text-gray-700">Output Format</label>
+            <select class="speed-format-input border border-gray-300 rounded-md px-2 py-1">
+                <option value="mp4">MP4</option>
+                <option value="gif">GIF</option>
+                <option value="mp3">MP3</option>
+                <option value="wav">WAV</option>
+            </select>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Adjust Speed
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Video Merge Tool Card -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="layers"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Video Merger</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Merge multiple videos into a single file.
+        </p>
+
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+            data-api="/api/video/merge" data-download="merged_video.mp4">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your videos here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse (multiple files allowed)</p>
+            <input type="file" class="hidden" accept="video/*" multiple>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Merge Videos
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Image to Video Tool Card -->
+<div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+            <i data-feather="image"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Image to Video</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Convert multiple images into a single video.
+        </p>
+
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+             data-api="/api/video/img-to-video" data-download="output_video.mp4">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your images here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse (multiple files allowed)</p>
+            <input type="file" class="hidden" accept="image/*" name="images" multiple>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition">
+                Create Video
+            </button>
+        </div>
+    </div>
+</div>
+
+
+                <!-- Extract Frames Tool Card -->
+                <div class="ssb-tool-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+            <i data-feather="image"></i>
+        </div>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">Extract Frames</h3>
+        <p class="mt-2 text-base text-gray-500">
+            Extract frames from a video at a specified interval (seconds).
+        </p>
+
+        <!-- File Upload -->
+        <div class="mt-6 ssb-file-upload rounded-lg p-4 text-center cursor-pointer"
+            data-api="/api/video/extract-frames" data-download="">
+            <i data-feather="upload" class="mx-auto w-8 h-8 text-gray-400"></i>
+            <p class="mt-2 text-sm text-gray-600">Drag & drop your video here</p>
+            <p class="text-xs text-gray-500 mt-1">or click to browse</p>
+            <input type="file" class="hidden" accept="video/*">
+        </div>
+
+        <!-- Interval Input -->
+        <div class="mt-4">
+            <label for="interval" class="block text-sm font-medium text-gray-700">Frame Interval (seconds)</label>
+            <input type="number" id="interval" name="interval" value="1" min="0.1" step="0.1"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <button
+                class="ssb-tool-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Extract Frames
+            </button>
+        </div>
+    </div>
+                </div>
+
+                <!-- Add more video tools here using same structure -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">About</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Privacy</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Terms</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-500 hover:text-gray-900">Contact</a>
+                </div>
+            </nav>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2025 KYRO Pro. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+<script>
+    // -------------------------
+    // Tabs functionality
+    // -------------------------
+    document.querySelectorAll('.ssb-tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.ssb-tab-button').forEach(btn => btn.classList.remove('ssb-tab-active'));
+            document.querySelectorAll('.ssb-tab-content').forEach(content => content.classList.add('hidden'));
+
+            button.classList.add('ssb-tab-active');
+
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.remove('hidden');
+        });
+    });
+
+    // -------------------------
+    // Unified File Upload + API handler
+    // -------------------------
+    document.querySelectorAll('.ssb-tool-card').forEach(card => {
+        const upload = card.querySelector('.ssb-file-upload');
+        const input = upload.querySelector('input[type="file"]');
+        const button = card.querySelector('.ssb-tool-btn');
+        const textarea = card.querySelector('textarea');
+
+        let selectedFiles = null;
+
+        // Click upload area to open file dialog
+        upload.addEventListener('click', () => input.click());
+
+        // Handle file selection
+        const handleFiles = (files) => {
+            if (files.length > 0) {
+                selectedFiles = files;
+                const names = Array.from(selectedFiles).map(f => f.name).join(', ');
+                upload.querySelector('p.text-sm').textContent = `Selected: ${names}`;
+
+                if (textarea && selectedFiles.length === 1) {
+                    const formData = new FormData();
+                    formData.append('file', selectedFiles[0]);
+                    fetch('/api/docx/read', { method: 'POST', body: formData })
+                        .then(res => res.json())
+                        .then(data => { if (data.text !== undefined) textarea.value = data.text; })
+                        .catch(err => console.error('Error reading DOCX:', err));
+                }
+            }
+        };
+
+        input.addEventListener('change', () => handleFiles(input.files));
+
+        // Drag & Drop
+        upload.addEventListener('dragover', e => {
+            e.preventDefault();
+            upload.classList.add('ssb-file-dragging');
+        });
+        upload.addEventListener('dragleave', () => upload.classList.remove('ssb-file-dragging'));
+        upload.addEventListener('drop', e => {
+            e.preventDefault();
+            upload.classList.remove('ssb-file-dragging');
+            handleFiles(e.dataTransfer.files);
+            input.files = e.dataTransfer.files;
+        });
+
+        // Tool button click
+        button.addEventListener('click', async () => {
+            if (!selectedFiles || selectedFiles.length === 0) {
+                alert("Please select a file first!");
+                return;
+            }
+
+            // Only enforce multiple files if the tool explicitly allows it
+            const isMultiFileTool = upload.dataset.api && upload.dataset.api.includes("to_pdf");
+            if (isMultiFileTool && selectedFiles.length < 2) {
+                alert("Please select at least 2 files for this tool!");
+                return;
+            }
+
+            button.disabled = true;
+            const originalText = button.textContent;
+            button.textContent = "Processing...";
+
+            try {
+                const api = upload.getAttribute('data-api');
+                const formData = new FormData();
+
+                if (textarea) {
+                    formData.append('file', selectedFiles[0]);
+                    formData.append('text', textarea.value);
+                } else if (isMultiFileTool) {
+                    // Only multi-file tools (e.g., images-to-PDF)
+                    for (let i = 0; i < selectedFiles.length; i++) formData.append('files', selectedFiles[i]);
+                } else {
+                    formData.append('file', selectedFiles[0]);
+                }
+
+                // Append other inputs dynamically
+                card.querySelectorAll('input, select, textarea').forEach(el => {
+                    if ((el !== input && el !== textarea) && el.value) {
+                        formData.append(el.name || el.id || el.className, el.value);
+                    }
+                });
+
+                const response = await fetch(api, { method: 'POST', body: formData });
+                if (!response.ok) throw new Error("Failed to process file");
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+
+                let downloadName = upload.getAttribute('data-download') || (selectedFiles[0] ? selectedFiles[0].name : 'output_file');
+
+                const formatSelect = card.querySelector('select');
+                if (formatSelect && formatSelect.value) {
+                    const baseName = downloadName.split('.').slice(0, -1).join('.');
+                    downloadName = `${baseName}.${formatSelect.value}`;
+                }
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = downloadName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+
+                alert("File processed and downloaded successfully!");
+            } catch (err) {
+                console.error(err);
+                alert("An error occurred while processing the file.");
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        });
+    });
+
+    // -------------------------
+    // Initialize feather icons
+    // -------------------------
+    feather.replace();
+</script>
+
+
+</body>
+
+</html>
